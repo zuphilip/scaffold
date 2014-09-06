@@ -2,6 +2,10 @@ To build the XPI installer, enter this directory and run build.sh:
 
   ./build.sh
 
+In Windows, one can use for example [cygwin](https://www.cygwin.com/) for building.
+Just make sure that you also have the zip package installed and the script
+uses unix style line ending (for the usage of the backslash as line continuation).
+
 This will create a file scaffold.xpi, which you can open in Firefox
 to install.
 
