@@ -104,6 +104,11 @@ var Scaffold = new function() {
 
 		_editors["code"].getSession().setMode(new codeWin.JavaScriptMode);
 		_editors["code"].getSession().setUseSoftTabs(false);
+		_editors["code"].getSession().setOptions({
+			enableBasicAutocompletion: true,
+			enableSnippets: true,
+			enableLiveAutocompletion: true
+		});
 
 		_editors["tests"].getSession().setUseWorker(false);
 		_editors["tests"].getSession().setMode(new testsWin.JavaScriptMode);

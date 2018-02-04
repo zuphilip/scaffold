@@ -37,6 +37,47 @@ window.addEventListener("DOMContentLoaded", function(e) {
 	JavaScriptMode = require("ace/mode/javascript").Mode;
 	TextMode = require("ace/mode/text").Mode;
 	EditSession = require("ace/edit_session").EditSession;
+
+	ace.config.loadModule('ace/ext/language_tools', function () {
+		var snippetManager = ace.require("ace/snippets").snippetManager;
+		//var config = ace.require("ace/config");
+		snippets = [{
+			content: "ZU.doGet(${1:url}, function(text) {\n\t${2:// continue here}\n});// optional parameters: responseCharset, cookieSandbox, requestHeaders\n",
+			name: "ZU.doGet",
+			tabTrigger: "h"
+		},
+		{
+			content: "ZU.xpathText(${1:node}, '${2:xpath}');// optional parameters: namespaces, delimiter for joining several values",
+			name: "ZU.xpathText",
+			tabTrigger: "h"
+		}];
+		snippetManager.register(snippets);
+		
+		var ZoteroCompleter = {
+			getCompletions: function(editor, session, pos, prefix, callback) {
+				callback(null, [
+					{value: "ZU.cleanAuthor()", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.strToISO()", score: 1000, meta: "Zotero Utility function"},
+					{value: "Z.monitorDOMChanges()", score: 1000, meta: "Zotero function"}
+				]);
+			}
+		}
+		var langTools = require("ace/ext/language_tools");
+		// Either: only ZoteroCompleter and custom snippets
+		langTools.setCompleters([ZoteroCompleter, langTools.snippetCompleter,]);
+		// or: additional to the JS completers (and Snippets if loaded)
+		//langTools.addCompleter(ZoteroCompleter);
+		
+	});
+	var langTools = require("ace/ext/language_tools");
+
 	editor = ace.edit('ace-div');
 	editor.setTheme("ace/theme/monokai");
+	// Activate all autocompletion here, they still have
+	// to activated in the individual editor windows.
+	editor.setOptions({
+		enableBasicAutocompletion: true,
+		enableSnippets: true,
+		enableLiveAutocompletion: true
+	});
 }, false);
