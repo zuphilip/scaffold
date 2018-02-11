@@ -40,25 +40,54 @@ window.addEventListener("DOMContentLoaded", function(e) {
 
 	ace.config.loadModule('ace/ext/language_tools', function () {
 		var snippetManager = ace.require("ace/snippets").snippetManager;
-		//var config = ace.require("ace/config");
 		snippets = [{
-			content: "ZU.doGet(${1:url}, function(text) {\n\t${2:// continue here}\n});// optional parameters: responseCharset, cookieSandbox, requestHeaders\n",
-			name: "ZU.doGet",
-			tabTrigger: "h"
+			content: "for (let i=0; i<${1:arrayName}.length; i++) {\n\t${2:// continue here}\n}\n",
+			name: "simple for loop"
 		},
 		{
-			content: "ZU.xpathText(${1:node}, '${2:xpath}');// optional parameters: namespaces, delimiter for joining several values",
-			name: "ZU.xpathText",
-			tabTrigger: "h"
+			content: "var item = new Zotero.Item(${1:itemType});",
+			name: "new Zotero.Item"
+		},
+		{
+			content: "ZU.doGet(${1:url}, function(text) {\n\t${2:// continue here}\n});\n",
+			name: "ZU.doGet"
+		},
+		{
+			content: "ZU.doPost(${1:url}, ${2:body}, function(text) {\n\t${3:// continue here}\n});\n",
+			name: "ZU.doPost"
+		},
+		{
+			content: "ZU.processDocuments(${1:urls}, ${2:processor}, ${3:noCompleteOnError});\n",
+			name: "ZU.processDocuments"
+		},
+		{
+			content: "ZU.xpathText(${1:node}, '${2:xpath}');",
+			name: "ZU.xpathText"
+		},
+		{
+			content: "ZU.xpath(${1:node}, '${2:xpath}');",
+			name: "ZU.xpath"
 		}];
 		snippetManager.register(snippets);
 		
 		var ZoteroCompleter = {
 			getCompletions: function(editor, session, pos, prefix, callback) {
 				callback(null, [
-					{value: "ZU.cleanAuthor()", score: 1000, meta: "Zotero Utility function"},
-					{value: "ZU.strToISO()", score: 1000, meta: "Zotero Utility function"},
-					{value: "Z.monitorDOMChanges()", score: 1000, meta: "Zotero function"}
+					{value: "ZU.cleanAuthor", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.strToISO", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.cleanISBN", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.cleanDOI", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.cleanISSN", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.trimInternal", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.capitalizeTitle", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.unescapeHTML", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.superCleanString", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.cleanTags", score: 1000, meta: "Zotero Utility function"},
+					{value: "ZU.removeDiacritics", score: 1000, meta: "Zotero Utility function"},
+					{value: "Z.debug", score: 1000, meta: "Zotero function"},
+					{value: "Z.monitorDOMChanges", score: 1000, meta: "Zotero function"},
+					{value: "Z.selectItems", score: 1000, meta: "Zotero function"},
+					{value: "Z.loadTranslator", score: 1000, meta: "Zotero function"}
 				]);
 			}
 		}
@@ -73,11 +102,4 @@ window.addEventListener("DOMContentLoaded", function(e) {
 
 	editor = ace.edit('ace-div');
 	editor.setTheme("ace/theme/monokai");
-	// Activate all autocompletion here, they still have
-	// to activated in the individual editor windows.
-	editor.setOptions({
-		enableBasicAutocompletion: true,
-		enableSnippets: true,
-		enableLiveAutocompletion: true
-	});
 }, false);

@@ -104,10 +104,10 @@ var Scaffold = new function() {
 
 		_editors["code"].getSession().setMode(new codeWin.JavaScriptMode);
 		_editors["code"].getSession().setUseSoftTabs(false);
-		_editors["code"].getSession().setOptions({
+		_editors["code"].setOptions({
 			enableBasicAutocompletion: true,
 			enableSnippets: true,
-			enableLiveAutocompletion: true
+			enableLiveAutocompletion: false
 		});
 
 		_editors["tests"].getSession().setUseWorker(false);
@@ -125,6 +125,13 @@ var Scaffold = new function() {
 				var external = document.getElementById('checkbox-editor-external').checked;
 				_editors["code"].setReadOnly(external);
 				_editors["tests"].setReadOnly(external);
+			}, true);
+		
+		// Enable/disable live autocompletion
+		document.getElementById('checkbox-live-autocompletion').addEventListener("command",
+			function() {
+				var liveAutocompletion = document.getElementById('checkbox-live-autocompletion').checked;
+				_editors["code"].setOption('enableLiveAutocompletion', liveAutocompletion);
 			}, true);
 
 		generateTranslatorID();

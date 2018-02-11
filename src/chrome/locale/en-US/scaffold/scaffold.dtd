@@ -55,6 +55,7 @@
 <!ENTITY scaffold.load.creator.label			"Creator">
 
 <!ENTITY scaffold.editor.external.label			"Use external editor">
+<!ENTITY scaffold.editor.liveAutocompletion.label			"Live Autocompletion">
 
 <!ENTITY scaffold.testing.description			"Select a test to run">
 <!ENTITY scaffold.testing.input.label			"Input">
