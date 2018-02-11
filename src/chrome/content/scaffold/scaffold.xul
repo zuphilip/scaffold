@@ -54,6 +54,7 @@
 							<menuitem id="mb-help-fields-newspaperarticle" label="newspaperArticle" oncommand="Scaffold.addTemplate('templateNewItem', 'newspaperArticle')"/>
 						</menupopup>
 					</menu>
+					<menuitem id="mb-help-functions" label="&scaffold.toolbar.help.functions.label;" oncommand="Scaffold.addTemplate('listFunctions')"/>
 				</menupopup>
 			</menu>
 		</menubar>

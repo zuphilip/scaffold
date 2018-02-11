@@ -337,6 +337,10 @@ var Scaffold = new function() {
 				var typeNames = Zotero.ItemTypes.getTypes().map(t => t.name);
 				document.getElementById('output').value = JSON.stringify(typeNames, null, '\t');
 				break;
+			case "listFunctions":
+				var functions = Zotero.File.getContentsFromURL(`chrome://scaffold/content/templates/functions.txt`);
+				document.getElementById('output').value = functions;
+				break;
 			default:
 				//newWeb, scrapeEM, scrapeRIS, scrapeBibTeX, scrapeMARC
 				//These names in the XUL file have to match the file names in template folder.

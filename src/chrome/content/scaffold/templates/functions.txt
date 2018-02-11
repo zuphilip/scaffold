@@ -1,0 +1,47 @@
+These special Zotero functions are most frequent used in translator coding, for autocompletion try also ctrl+space during writing.
+
+
+### CSS path ###
+
+text(docOrElem, selector[, index])
+attr(docOrElem, selector, attr[, index])
+
+
+### xpath ###
+
+ZU.xpath(elements, xpath[, namespaces])
+ZU.xpathText(node, xpath[, namespaces, delimiter])
+
+
+### call websites ###
+
+ZU.doGet(urls, processor[, done, responseCharset, requestHeaders])
+ZU.processDocuments(urls, processor, noCompleteOnError)
+ZU.doPost(url, body, onDone[, headers, responseCharset])
+
+
+### special cleaning functions ###
+
+ZU.cleanAuthor(author, type[, useComma=false])
+ZU.strToISO(str)
+ZU.cleanISBN(isbnStr[, dontValidate=false])
+ZU.cleanDOI(doiStr)
+ZU.cleanISSN(issnStr) 
+
+
+### clean text strings ###
+
+ZU.trimInternal(str)
+ZU.capitalizeTitle(str, force)
+ZU.unescapeHTML(str)
+ZU.superCleanString(str)
+ZU.cleanTags(str)
+ZU.removeDiacritics(str, lowercaseOnly)
+
+
+### specialized functions ###
+Z.debug(obj)
+ZU.varDump(obj, level, maxLevel, parentObjects, path)
+Z.monitorDOMChanges(translate, target[, config])
+Z.selectItems(translate, items, callback)
+Z.loadTranslator(translate, type)
