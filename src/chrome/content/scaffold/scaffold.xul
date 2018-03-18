@@ -35,12 +35,14 @@
 	<script src="chrome://zotero/content/include.js"/>
 	<script src="chrome://zotero/content/tools/testTranslators/translatorTester.js"/>
 	<script src="scaffold.js"/>
+	
+	<keyset>
+		<key id="run-do-web" modifiers="accel" key="R" oncommand="Scaffold.run('do')"/>
+		<key id="detect-web" modifiers="accel" key="T" oncommand="Scaffold.run('detect')"/>
+		<key id="save" modifiers="accel" key="S" oncommand="Scaffold.save()"/>
+	</keyset>
 
 	<vbox flex="1">
-		
-		<keyset>
-			<key id="test" key="w" modifiers="accel" oncommand="Scaffold.close();" />
-		</keyset>
 		
 		<menubar id="mb">
 			<menu id="mb-help" label="&scaffold.menu.help;">
@@ -50,8 +52,15 @@
 						<menupopup id="mb-help-fields-popup">
 							<menuitem id="mb-help-fields-book" label="book" oncommand="Scaffold.addTemplate('templateNewItem', 'book')"/>
 							<menuitem id="mb-help-fields-booksection" label="bookSection" oncommand="Scaffold.addTemplate('templateNewItem', 'bookSection')"/>
+							<menuitem id="mb-help-fields-conferencepaper" label="conferencePaper" oncommand="Scaffold.addTemplate('templateNewItem', 'conferencePaper')"/>
 							<menuitem id="mb-help-fields-journalarticle" label="journalArticle" oncommand="Scaffold.addTemplate('templateNewItem', 'journalArticle')"/>
+							<menuitem id="mb-help-fields-magazinearticle" label="magazineArticle" oncommand="Scaffold.addTemplate('templateNewItem', 'magazineArticle')"/>
 							<menuitem id="mb-help-fields-newspaperarticle" label="newspaperArticle" oncommand="Scaffold.addTemplate('templateNewItem', 'newspaperArticle')"/>
+							<menu id="mb-help-fields-more" label="&scaffold.toolbar.template.more.label;">
+								<menupopup id="mb-help-fields-more-popup">
+								<!-- This will be filled on load with all other item types -->
+								</menupopup>
+							</menu>
 						</menupopup>
 					</menu>
 					<menuitem id="mb-help-functions" label="&scaffold.toolbar.help.functions.label;" oncommand="Scaffold.addTemplate('listFunctions')"/>
@@ -203,7 +212,9 @@
 						<vbox flex="1">
 							<hbox align="center">
 								<label control="textbox-tabUrl" value="&scaffold.tabUrl.label;"/>
-								<textbox id="textbox-tabUrl" class="browser-url" flex="1"/>
+								<menulist id="browser-url" editable="true" flex="1">
+									<menupopup></menupopup>
+								</menulist>
 							</hbox>
 							
 							<browser src="about:blank" flex="1"></browser>

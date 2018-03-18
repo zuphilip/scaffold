@@ -85,14 +85,12 @@ var Scaffold = new function() {
 			_updateFrames, true);
 		_updateFrames();
 		
-		let urlTextboxes = document.querySelectorAll('.browser-url');
-		for (let textbox of urlTextboxes) {
-			textbox.addEventListener('keypress', function(e) {
-				if (e.keyCode == e.DOM_VK_RETURN) {
-					_browser.loadURI(textbox.value);
-				}
-			});
-		}
+		let browserUrl = document.getElementById("browser-url");
+		browserUrl.addEventListener('keypress', function(e) {
+			if (e.keyCode == e.DOM_VK_RETURN) {
+				_browser.loadURI(browserUrl.value);
+			}
+		});
 		
 		var importWin = document.getElementById("editor-import").contentWindow;
 		var codeWin = document.getElementById("editor-code").contentWindow;
@@ -135,6 +133,18 @@ var Scaffold = new function() {
 			}, true);
 
 		generateTranslatorID();
+		
+		// Add List fields help menu entries for all other item types
+		var types = Zotero.ItemTypes.getAll().map(t => t.name).sort();
+		var morePopup = document.getElementById('mb-help-fields-more-popup');
+		var primaryTypes = ['book', 'bookSection', 'conferencePaper', 'journalArticle', 'magazineArticle', 'newspaperArticle'];
+		for (let type of types) {
+			if (primaryTypes.includes(type)) continue;
+			var menuitem = document.createElement('menuitem');
+			menuitem.setAttribute('label', type);
+			menuitem.addEventListener('command', () => { Scaffold.addTemplate('templateNewItem', type) });
+			morePopup.appendChild(menuitem);
+		}
 	}
 
 	function onResize() {
@@ -374,6 +384,12 @@ var Scaffold = new function() {
 			yield this.load(translatorID);
 		} else {
 			yield this.save();
+		}
+		
+		// Handle generic call run('detect'), run('do')
+		if (functionToRun == "detect" || functionToRun == "do") {
+			var isWeb = document.getElementById('checkbox-web').checked;
+			functionToRun += isWeb ? "Web" : "Import";
 		}
 		
 		if (functionToRun == "detectWeb" || functionToRun == "doWeb") {
@@ -854,10 +870,16 @@ var Scaffold = new function() {
 	}
 
 	/*
-	 * populate tests pane
+	 * populate tests pane and url options in browser pane
 	 */
 	function populateTests() {
 		_clearTests();
+		// Clear entries (but not value) in the url dropdown in the browser tab 
+		var browserURL = document.getElementById("browser-url");
+		var currentURL = browserURL.value;
+		browserURL.removeAllItems();
+		browserURL.value = currentURL;
+		
 		var tests = _loadTests(_editors["tests"].getSession().getValue());
 		// We've got tests, let's display them
 		var listbox = document.getElementById("testing-listbox");
@@ -865,9 +887,10 @@ var Scaffold = new function() {
 			var test = tests[i];
 			var listitem = document.createElement("listitem");
 			var listcell = document.createElement("listcell");
-			if (test.type == "web")
+			if (test.type == "web") {
 				listcell.setAttribute("label", test.url);
-			else if (test.type == "import")
+				browserURL.appendItem(test.url);
+			} else if (test.type == "import")
 				// trim label to improve performance
 				listcell.setAttribute("label", test.input.substr(0,80));
 			else continue; // unknown test type
@@ -879,6 +902,9 @@ var Scaffold = new function() {
 			listitem.setUserData("test-string", JSON.stringify(test), null);
 			listbox.appendChild(listitem);
 		}
+		
+		// Re-position URL drop-down
+		browserURL.firstChild.position = 'after_start';
 	}
 
 	
@@ -1137,8 +1163,8 @@ var Scaffold = new function() {
 	function _updateFrames() {
 		var doc = _browser.contentDocument;
 		
-		//Show URL of active tab
-		document.querySelectorAll("textbox.browser-url").forEach(elem => elem.value = doc.location.href);
+		// Show URL of active tab
+		document.getElementById("browser-url").value = doc.location.href;
 		
 		// No need to run if Scaffold isn't open
 		var menulist = _document.getElementById("menulist-testFrame");
